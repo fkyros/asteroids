@@ -15,7 +15,9 @@ public class Bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, maxLifeTime);
+        //Destroy(gameObject, maxLifeTime);
+        if (Time.time >= maxLifeTime)
+            gameObject.SetActive(false);
 
         yBorderLimit = Camera.main.orthographicSize + 1;
         xBorderLimit = (Camera.main.orthographicSize + 1) * Screen.width / Screen.height;
@@ -28,7 +30,7 @@ public class Bullet : MonoBehaviour
 
         if (pos.x > xBorderLimit || pos.x < -xBorderLimit ||
             pos.y > yBorderLimit || pos.y < -yBorderLimit)
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         else
             transform.Translate(speedFactor * targetVector * Time.deltaTime);
     }
@@ -39,7 +41,7 @@ public class Bullet : MonoBehaviour
         {
             IncreaseScore();
             Destroy(collision.gameObject); //Destruyo el meteorito
-            Destroy(gameObject); //Destruyo la bala
+            gameObject.SetActive(false);
         }
     }
 

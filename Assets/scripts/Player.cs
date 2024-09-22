@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public static uint SCORE = 0;
 
     public GameObject gun; //spawner
-    public GameObject bulletPrefab; //bullet itself
+
 
     public static float xBorderLimit, yBorderLimit;
 
@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
         _rigid = GetComponent<Rigidbody>();
         yBorderLimit = Camera.main.orthographicSize + 1;
         xBorderLimit = (Camera.main.orthographicSize + 1) * Screen.width / Screen.height;
-
     }
 
     //usado para updates relacionados con físicas y rigidbodies
@@ -57,10 +56,10 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity);
-
-            Bullet balaScript = bullet.GetComponent<Bullet>(); //componente bala script para modificar su dirección al disparar
-            balaScript.targetVector = transform.right;
+            GameObject bullet = BulletPool.Instance.RequestBullet();
+            bullet.transform.position = gun.transform.position;
+            Bullet bulletScript = bullet.GetComponent<Bullet>(); //componente bala script para modificar su dirección al disparar
+            bulletScript.targetVector = transform.right;
         }
     }
 
