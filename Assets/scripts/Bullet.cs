@@ -19,4 +19,13 @@ public class Bullet : MonoBehaviour
     {
         transform.Translate(speedFactor * targetVector * Time.deltaTime);
     }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject); //Destruyo el meteorito
+            Destroy(gameObject); //Destruyo la bala
+        }
+    }
 }

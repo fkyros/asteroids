@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -38,5 +39,13 @@ public class Player : MonoBehaviour
             Bullet balaScript = bullet.GetComponent<Bullet>(); //componente bala script para modificar su dirección al disparar
             balaScript.targetVector = transform.right;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reiniciamos el nivel porque hemos perdido
+        else
+            Debug.Log("nave ha colisionado con " + collision.gameObject.tag);
     }
 }
