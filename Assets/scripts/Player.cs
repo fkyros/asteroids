@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     public GameObject gun; //spawner
     public GameObject bulletPrefab; //bullet itself
 
+    public float xBorderLimit = 6f;
+    public float yBorderLimit = 6f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +36,17 @@ public class Player : MonoBehaviour
         _rigid.AddForce(thrustDirection * thrust * _thrustForce);
 
         transform.Rotate(Vector3.forward, -rotation * _rotationSpeed);
+
+        Vector3 newPos = transform.position;
+        if (newPos.x > xBorderLimit)
+            newPos.x = -xBorderLimit + 1;
+        if (newPos.x < -xBorderLimit)
+            newPos.x = xBorderLimit - 1;
+        if (newPos.y > yBorderLimit)
+            newPos.y = -yBorderLimit + 1;
+        if (newPos.y < -yBorderLimit)
+            newPos.y = yBorderLimit - 1;
+        transform.position = newPos;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
