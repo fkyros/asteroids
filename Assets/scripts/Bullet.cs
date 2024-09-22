@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bullet : MonoBehaviour
 {
@@ -24,8 +25,21 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            IncreaseScore();
             Destroy(collision.gameObject); //Destruyo el meteorito
             Destroy(gameObject); //Destruyo la bala
         }
+    }
+
+    private void IncreaseScore()
+    {
+        Player.SCORE++;
+        UpdateScoreText();
+    }
+
+    private void UpdateScoreText()
+    {
+        GameObject go = GameObject.FindGameObjectWithTag("UI"); //cualquier objeto de la escena que tenga dicho tag
+        go.GetComponent<Text>().text = "Puntos: " + Player.SCORE;
     }
 }

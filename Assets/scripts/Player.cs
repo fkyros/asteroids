@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public float _thrustForce = 100f;
     public float _rotationSpeed = 100f;
 
+    public static uint SCORE = 0;
+
     public GameObject gun; //spawner
     public GameObject bulletPrefab; //bullet itself
 
@@ -44,7 +46,10 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")
+        {
+            SCORE = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reiniciamos el nivel porque hemos perdido
+        }
         else
             Debug.Log("nave ha colisionado con " + collision.gameObject.tag);
     }
