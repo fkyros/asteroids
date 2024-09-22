@@ -16,17 +16,20 @@ public class Player : MonoBehaviour
     public GameObject gun; //spawner
     public GameObject bulletPrefab; //bullet itself
 
-    public float xBorderLimit = 6f;
-    public float yBorderLimit = 6f;
+    public static float xBorderLimit, yBorderLimit;
 
     // Start is called before the first frame update
     void Start()
     {
         _rigid = GetComponent<Rigidbody>();
+        yBorderLimit = Camera.main.orthographicSize + 1;
+        xBorderLimit = (Camera.main.orthographicSize + 1) * Screen.width / Screen.height;
+
     }
 
-    // Update is called once per frame
-    void Update()
+    //usado para updates relacionados con físicas y rigidbodies
+    //asegura que los calculos físicos son correctos para cada intervalo
+    void FixedUpdate()
     {
         //detectamos el input del usuario desde los controles
         float rotation = Input.GetAxis("Horizontal") * Time.deltaTime;
@@ -36,7 +39,11 @@ public class Player : MonoBehaviour
         _rigid.AddForce(thrustDirection * thrust * _thrustForce);
 
         transform.Rotate(Vector3.forward, -rotation * _rotationSpeed);
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
         Vector3 newPos = transform.position;
         if (newPos.x > xBorderLimit)
             newPos.x = -xBorderLimit + 1;
